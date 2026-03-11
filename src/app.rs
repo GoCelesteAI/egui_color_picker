@@ -32,11 +32,12 @@ impl eframe::App for MyApp {
 
       ui.add_space(10.0);
 
+      let display = egui::Color32::from(egui::Rgba::from_rgb(
+        self.current_color[0], self.current_color[1], self.current_color[2],
+      ));
       ui.label(format!(
-        "R: {:.0}  G: {:.0}  B: {:.0}",
-        self.current_color[0] * 255.0,
-        self.current_color[1] * 255.0,
-        self.current_color[2] * 255.0,
+        "R: {}  G: {}  B: {}",
+        display.r(), display.g(), display.b(),
       ));
 
       ui.add_space(10.0);
@@ -55,11 +56,9 @@ impl eframe::App for MyApp {
 
       for (i, color) in self.saved_colors.iter().enumerate() {
         ui.horizontal(|ui| {
-          let c = egui::Color32::from_rgb(
-            (color[0] * 255.0) as u8,
-            (color[1] * 255.0) as u8,
-            (color[2] * 255.0) as u8,
-          );
+          let c = egui::Color32::from(egui::Rgba::from_rgb(
+            color[0], color[1], color[2],
+          ));
 
           let (rect, _response) = ui.allocate_exact_size(
             egui::vec2(40.0, 20.0),
@@ -69,9 +68,7 @@ impl eframe::App for MyApp {
 
           ui.label(format!(
             "#{:02X}{:02X}{:02X}",
-            (color[0] * 255.0) as u8,
-            (color[1] * 255.0) as u8,
-            (color[2] * 255.0) as u8,
+            c.r(), c.g(), c.b(),
           ));
 
           if ui.button("Remove").clicked() {
